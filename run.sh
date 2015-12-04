@@ -7,4 +7,4 @@ EOF
 
 ln -sf  /etc/nginx/sites-available/site-https /etc/nginx/sites-enabled/site-https
 
-nginx -g daemon off
+nginx -g "daemon off;"
