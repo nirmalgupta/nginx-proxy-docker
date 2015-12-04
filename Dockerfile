@@ -4,13 +4,12 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends ca-certificates nginx && \
     rm -rf /var/lib/apt/lists/* && \
     ln -sf /dev/stdout /var/log/nginx/access.log && \
-    ln -sf /dev/stderr /var/log/nginx/error.log
+    ln -sf /dev/stderr /var/log/nginx/error.log && mkdir src
 
-COPY site-https /etc/nginx/sites-available/site-https
+COPY site-https.in run.sh src/
 
-RUN ln -s  /etc/nginx/sites-available/site-https /etc/nginx/sites-enabled/site-https
-
+RUN cd src; chmod +x run.sh
 EXPOSE 80 443
 VOLUME ["/var/cache/nginx"]
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD cd src; ./run.sh
